@@ -7,17 +7,27 @@ const HomePage = () => {
   const { selectedUser } = useChatStore();
 
   return (
-    <div className="h-screen bg-gradient-to-br from-indigo-100 via-sky-100 to-purple-100 flex justify-center pt-20 px-4">
-      <div className="w-full max-w-7xl h-full flex rounded-3xl overflow-hidden shadow-2xl bg-white/70 backdrop-blur-xl border border-white/40">
-        
-        {/* Sidebar */}
-        <div className="w-72 border-r border-white/30 bg-white/60 backdrop-blur-xl">
-          <Sidebar />
-        </div>
+    <div className="h-screen bg-base-200">
+      <div className="flex items-center justify-center pt-16 px-0 sm:px-4">
+        <div className="bg-base-100 w-full max-w-6xl h-[calc(100vh-4rem)] sm:h-[calc(100vh-6rem)] overflow-hidden">
+          <div className="flex h-full">
+            
+            {/* Sidebar */}
+            <div
+              className={`
+                ${selectedUser ? "hidden lg:block" : "block"}
+                h-full
+              `}
+            >
+              <Sidebar />
+            </div>
 
-        {/* Chat Area */}
-        <div className="flex-1 flex flex-col">
-          {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
+            {/* Chat Area */}
+            <div className="flex-1 h-full">
+              {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
@@ -25,4 +35,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
 
