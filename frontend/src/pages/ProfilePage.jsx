@@ -11,7 +11,6 @@ const ProfilePage = () => {
     if (!file) return;
 
     const reader = new FileReader();
-
     reader.readAsDataURL(file);
 
     reader.onload = async () => {
@@ -22,34 +21,42 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="h-screen pt-20">
-      <div className="max-w-2xl mx-auto p-4 py-8">
-        <div className="bg-base-300 rounded-xl p-6 space-y-8">
+    <div className="min-h-screen pt-20 bg-base-200">
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        
+        {/* Main Card */}
+        <div className="bg-base-100 rounded-2xl shadow-xl border border-base-300 p-8 space-y-10">
+
+          {/* Header */}
           <div className="text-center">
-            <h1 className="text-2xl font-semibold ">Profile</h1>
-            <p className="mt-2">Your profile information</p>
+            <h1 className="text-3xl font-bold">Profile</h1>
+            <p className="mt-2 text-base-content/60">
+              Manage your personal information
+            </p>
           </div>
 
-          {/* avatar upload section */}
-
+          {/* Avatar Section */}
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
               <img
                 src={selectedImg || authUser.profilePic || "/avatar.png"}
                 alt="Profile"
-                className="size-32 rounded-full object-cover border-4 "
+                className="size-36 rounded-full object-cover 
+                ring-4 ring-primary/20 shadow-lg"
               />
+
               <label
                 htmlFor="avatar-upload"
                 className={`
-                  absolute bottom-0 right-0 
-                  bg-base-content hover:scale-105
-                  p-2 rounded-full cursor-pointer 
+                  absolute bottom-2 right-2 
+                  bg-primary text-primary-content
+                  p-2.5 rounded-full cursor-pointer
+                  shadow-md hover:scale-105
                   transition-all duration-200
                   ${isUpdatingProfile ? "animate-pulse pointer-events-none" : ""}
                 `}
               >
-                <Camera className="w-5 h-5 text-base-200" />
+                <Camera className="w-5 h-5" />
                 <input
                   type="file"
                   id="avatar-upload"
@@ -60,45 +67,62 @@ const ProfilePage = () => {
                 />
               </label>
             </div>
-            <p className="text-sm text-zinc-400">
-              {isUpdatingProfile ? "Uploading..." : "Click the camera icon to update your photo"}
+
+            <p className="text-sm text-base-content/50">
+              {isUpdatingProfile
+                ? "Uploading photo..."
+                : "Click the camera icon to update your photo"}
             </p>
           </div>
 
-          <div className="space-y-6">
-            <div className="space-y-1.5">
-              <div className="text-sm text-zinc-400 flex items-center gap-2">
+          {/* Info Section */}
+          <div className="grid gap-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-sm text-base-content/60">
                 <User className="w-4 h-4" />
                 Full Name
               </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.fullName}</p>
+              <div className="px-4 py-3 bg-base-200 rounded-xl border">
+                {authUser?.fullName}
+              </div>
             </div>
 
-            <div className="space-y-1.5">
-              <div className="text-sm text-zinc-400 flex items-center gap-2">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-sm text-base-content/60">
                 <Mail className="w-4 h-4" />
                 Email Address
               </div>
-              <p className="px-4 py-2.5 bg-base-200 rounded-lg border">{authUser?.email}</p>
+              <div className="px-4 py-3 bg-base-200 rounded-xl border">
+                {authUser?.email}
+              </div>
             </div>
           </div>
 
-          <div className="mt-6 bg-base-300 rounded-xl p-6">
-            <h2 className="text-lg font-medium  mb-4">Account Information</h2>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center justify-between py-2 border-b border-zinc-700">
-                <span>Member Since</span>
-                <span>{authUser.createdAt?.split("T")[0]}</span>
+          {/* Account Info */}
+          <div className="bg-base-200 rounded-xl p-6 border">
+            <h2 className="text-lg font-semibold mb-4">Account Information</h2>
+
+            <div className="space-y-4 text-sm">
+              <div className="flex items-center justify-between border-b border-base-300 pb-3">
+                <span className="text-base-content/60">Member Since</span>
+                <span className="font-medium">
+                  {authUser.createdAt?.split("T")[0]}
+                </span>
               </div>
-              <div className="flex items-center justify-between py-2">
-                <span>Account Status</span>
-                <span className="text-green-500">Active</span>
+
+              <div className="flex items-center justify-between">
+                <span className="text-base-content/60">Account Status</span>
+                <span className="px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-xs font-medium">
+                  Active
+                </span>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   );
 };
+
 export default ProfilePage;
