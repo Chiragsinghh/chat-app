@@ -1,16 +1,25 @@
-import express from 'express'
-import { login, logout, signup } from '../controllers/auth.controller.js';
-import { protectRoute } from '../middleware/auth.middleware.js';
+import express from "express";
+import {
+  login,
+  logout,
+  signup,
+  updateProfile,
+} from "../controllers/auth.controller.js";
+import { protectRoute } from "../middleware/auth.middleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post("/signup",signup);
+// auth
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout);
 
-router.post("/login",login);
+// 🔑 THIS IS THE MISSING PIECE
+router.get("/check", protectRoute, (req, res) => {
+  res.status(200).json(req.user);
+});
 
-router.post("/logout",logout);
+// profile
+router.put("/update-profile", protectRoute, updateProfile);
 
-router.put("/updateprofile",protectRoute,updateProfile)
-
-
-export default router
+export default router;
