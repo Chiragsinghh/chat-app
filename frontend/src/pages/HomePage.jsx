@@ -8,31 +8,25 @@ const HomePage = () => {
 
   return (
     <div className="h-screen bg-base-200">
-      <div className="flex items-center justify-center pt-20 px-2 lg:px-4">
-        <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-5rem)] flex overflow-hidden">
-          {/* Sidebar */}
-          <Sidebar />
+      <div className="flex items-center justify-center pt-16 px-0 sm:px-4">
+        <div className="bg-base-100 w-full max-w-6xl h-[calc(100vh-4rem)] sm:h-[calc(100vh-6rem)] overflow-hidden">
+          <div className="flex h-full">
+            
+            {/* Sidebar */}
+            <div
+              className={`
+                ${selectedUser ? "hidden lg:block" : "block"}
+                h-full
+              `}
+            >
+              <Sidebar />
+            </div>
 
-          {/* Main Content */}
-          <div className="flex-1 relative">
-            {/* Chat container */}
-            {selectedUser ? (
-              <ChatContainer />
-            ) : (
-              <NoChatSelected />
-            )}
-          </div>
+            {/* Chat Area */}
+            <div className="flex-1 h-full">
+              {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
+            </div>
 
-          {/* Right-side welcome section: hidden on small screens */}
-          <div className="hidden lg:flex w-1/3 bg-base-200 items-center justify-center p-6">
-            {!selectedUser && (
-              <div className="text-center">
-                <h2 className="text-2xl font-semibold mb-2">Welcome to Chatty!</h2>
-                <p className="text-base-content/60">
-                  Select a user from the sidebar to start chatting
-                </p>
-              </div>
-            )}
           </div>
         </div>
       </div>
