@@ -8,7 +8,7 @@ import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
   const { messages, getMessages, isMessagesLoading, selectedUser } = useChatStore();
-  const { authUser, theme } = useAuthStore(); // get current theme
+  const { authUser, theme } = useAuthStore();
   const messageEndRef = useRef(null);
 
   useEffect(() => {
@@ -31,7 +31,6 @@ const ChatContainer = () => {
     );
   }
 
-  // Define background for chat area per theme
   const chatBgMap = {
     light: "bg-gray-100",
     dark: "bg-gray-900",
@@ -39,6 +38,7 @@ const ChatContainer = () => {
     green: "bg-green-50",
     purple: "bg-purple-50",
   };
+
   const chatBubbleMap = {
     light: { sent: "bg-indigo-500 text-white rounded-br-none", received: "bg-white text-gray-800 rounded-bl-none" },
     dark: { sent: "bg-purple-500 text-white rounded-br-none", received: "bg-gray-800 text-gray-100 rounded-bl-none" },
@@ -54,7 +54,6 @@ const ChatContainer = () => {
     <div className={`flex flex-col h-full ${bgClass} backdrop-blur-xl`}>
       <ChatHeader />
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-indigo-300 scrollbar-track-transparent">
         {messages.map((message) => {
           const isOwn = message.senderId === authUser._id;
@@ -78,15 +77,28 @@ const ChatContainer = () => {
                 {formatMessageTime(message.createdAt)}
               </div>
 
-              <div className={`chat-bubble max-w-xs sm:max-w-md text-sm leading-relaxed px-4 py-2 shadow-md ${isOwn ? bubbleClasses.sent : bubbleClasses.received}`}>
+              <div
+                className={`chat-bubble max-w-xs sm:max-w-md text-sm leading-relaxed px-4 py-2 shadow-md ${
+                  isOwn ? bubbleClasses.sent : bubbleClasses.received
+                }`}
+              >
                 {message.image && (
                   <img
                     src={message.image}
                     alt="attachment"
-                    className="rounded-lg mb-2 max-w-[220px] hover:scale-105 transition"
+                    className="rounded-lg mb-2 max-w-[220px]"
                   />
                 )}
-                {message.text}
+
+                {message.audio && (
+                  <audio
+                    src={message.audio}
+                    controls
+                    className="w-56 mb-1"
+                  />
+                )}
+
+                {message.text && <p>{message.text}</p>}
               </div>
             </div>
           );
