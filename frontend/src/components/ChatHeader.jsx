@@ -1,63 +1,61 @@
-import { X } from "lucide-react";
+import { X, Settings2 } from "lucide-react";
+import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
-import { useChatStore } from "../store/useChatstore";
 
-const ChatHeader = () => {
-  const { selectedUser, setSelectedUser } = useChatStore();
+// Destructure onShowSettings here
+const ChatHeader = ({ onShowSettings }) => {
+  const { selectedChat, setSelectedChat } = useChatStore();
   const { onlineUsers } = useAuthStore();
 
-  if (!selectedUser) return null;
+  if (!selectedChat) return null;
 
-  const isOnline = onlineUsers.includes(selectedUser._id);
+  const isGroup = !!selectedChat.isGroup;
+  const isOnline = !isGroup && onlineUsers.includes(selectedChat._id);
 
   return (
-    <div className="px-4 py-3 border-b border-white/20 bg-white/60 backdrop-blur-xl">
+    <div className="p-2.5 border-b border-base-300">
       <div className="flex items-center justify-between">
-        
-        {/* Left */}
-        <div className="flex items-center gap-4">
-          
-          {/* Avatar */}
-          <div className="relative">
-            <div className="size-11 rounded-full overflow-hidden ring-2 ring-white shadow-md">
-              <img
-                src={selectedUser.profilePic || "/avatar.png"}
-                alt={selectedUser.fullName}
-                className="w-full h-full object-cover"
+        <div className="flex items-center gap-3">
+          <div className="avatar">
+            <div className="size-10 rounded-full relative">
+              <img 
+                src={selectedChat.profilePic || selectedChat.groupPic || "/avatar.png"} 
+                alt={selectedChat.fullName || selectedChat.name} 
+                className="object-cover size-10 rounded-full"
               />
             </div>
-
-            {/* Online indicator */}
-            {isOnline && (
-              <span
-                className="absolute bottom-0 right-0 w-3 h-3 rounded-full 
-                           bg-green-500 ring-2 ring-white animate-pulse"
-              />
-            )}
           </div>
 
-          {/* User info */}
-          <div className="leading-tight">
-            <h3 className="font-semibold text-base">
-              {selectedUser.fullName}
+          <div>
+            <h3 className="font-medium truncate">
+              {selectedChat.fullName || selectedChat.name}
             </h3>
-            <p
-              className={`text-sm ${
-                isOnline ? "text-green-600" : "text-gray-400"
-              }`}
-            >
-              {isOnline ? "Online" : "Offline"}
+            <p className="text-sm text-base-content/70">
+              {isGroup ? (
+                `${selectedChat.members?.length || 0} members`
+              ) : (
+                isOnline ? "Online" : "Offline"
+              )}
             </p>
           </div>
         </div>
 
-        {/* Close */}
-        <button
-          onClick={() => setSelectedUser(null)}
-          className="p-2 rounded-full hover:bg-black/5 transition"
-        >
-          <X size={18} />
-        </button>
+        <div className="flex items-center gap-2">
+          {/* Settings Button */}
+          {isGroup && (
+            <button 
+              onClick={onShowSettings} 
+              className="btn btn-ghost btn-sm btn-circle"
+              type="button"
+            >
+              <Settings2 className="size-5" />
+            </button>
+          )}
+
+          <button onClick={() => setSelectedChat(null)} className="btn btn-ghost btn-sm btn-circle">
+            <X className="size-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
