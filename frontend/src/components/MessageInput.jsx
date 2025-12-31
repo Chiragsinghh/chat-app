@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Mic, Send, Image, Square } from "lucide-react";
-import { useChatStore } from "../store/useChatstore";
+import { useChatStore } from "../store/useChatStore";
 
 const MessageInput = () => {
   const { sendMessage, selectedUser, isSendingMessage } = useChatStore();
