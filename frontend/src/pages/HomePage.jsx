@@ -1,32 +1,36 @@
-import { useChatStore } from "../store/useChatstore";
+import { useState } from "react";
+import { useChatStore } from "../store/useChatStore";
 import Sidebar from "../components/Sidebar";
 import NoChatSelected from "../components/NoChatSelected";
 import ChatContainer from "../components/ChatContainer";
+import GroupSettings from "../components/GroupSettings";
 
 const HomePage = () => {
-  const { selectedUser } = useChatStore();
+  const { selectedChat } = useChatStore();
+  const [showGroupSettings, setShowGroupSettings] = useState(false);
 
   return (
     <div className="h-screen bg-base-200">
-      <div className="flex items-center justify-center pt-16 px-0 sm:px-4">
-        <div className="bg-base-100 w-full max-w-6xl h-[calc(100vh-4rem)] sm:h-[calc(100vh-6rem)] overflow-hidden">
-          <div className="flex h-full">
-            
-            {/* Sidebar */}
-            <div
-              className={`
-                ${selectedUser ? "hidden lg:block" : "block"}
-                h-full
-              `}
-            >
-              <Sidebar />
-            </div>
+      <div className="flex items-center justify-center pt-20 px-4">
+        <div className="bg-base-100 rounded-lg shadow-cl w-full max-w-7xl h-[calc(100vh-8rem)]">
+          <div className="flex h-full rounded-lg overflow-hidden">
+            <Sidebar />
 
-            {/* Chat Area */}
-            <div className="flex-1 h-full">
-              {!selectedUser ? <NoChatSelected /> : <ChatContainer />}
-            </div>
-
+            {!selectedChat ? (
+              <NoChatSelected />
+            ) : (
+              <div className="flex-1 flex overflow-hidden">
+                {/* We pass the toggle function as a prop here */}
+                <ChatContainer onShowSettings={() => setShowGroupSettings(!showGroupSettings)} />
+                
+                {showGroupSettings && selectedChat.isGroup && (
+                  <GroupSettings 
+                    isOpen={showGroupSettings} 
+                    onClose={() => setShowGroupSettings(false)} 
+                  />
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
