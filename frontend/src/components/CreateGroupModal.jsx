@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useChatStore } from "../store/useChatstore";
+import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import { X, Camera, UserPlus, Search } from "lucide-react";
 import toast from "react-hot-toast";
