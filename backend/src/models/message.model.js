@@ -7,25 +7,23 @@ const messageSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-
+    // Optional for private chats
     receiverId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
-
-    // Text message
+    // Added for group chats
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
+    },
     text: {
       type: String,
       trim: true,
     },
-
-    // Image message (URL)
     image: {
       type: String,
     },
-
-    // 🎙️ Voice message (URL)
     audio: {
       type: String,
     },
