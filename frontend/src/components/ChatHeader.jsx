@@ -2,7 +2,7 @@ import { X, Settings2 } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 
-// Destructure onShowSettings here
+
 const ChatHeader = ({ onShowSettings }) => {
   const { selectedChat, setSelectedChat } = useChatStore();
   const { onlineUsers } = useAuthStore();
